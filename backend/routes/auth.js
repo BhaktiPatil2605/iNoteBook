@@ -52,11 +52,61 @@ router.post('/createUser', [
     // console.log(jwtData);
     // res.json(user)
     res.json({authToken});
-    
+
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Something went wrong!');
+    res.status(500).send('Internal Server Error');
   }
 })
+
+// Authenticate the user  using POST '/api/auth/login' Doessnt require the auth, Login not required
+router.post('/login', [
+  
+  body('email', 'Enter a valid Email!').isEmail(), // validation
+  body('password', 'Password cannot be Blank!').exists(), // validation
+
+],async (req, res) => {
+
+  try {
+    // Validation errors handling
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+
+    // Find user by email
+    let user = await User.findOne({ email });
+
+    // If user not found, return error
+    if (!user) {
+      return res.status(400).json({ error: "Please enter correct Credentials!" });
+    }
+
+    // Compare passwords
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    // If password doesn't match, return error
+    if (!isPasswordValid) {
+      return res.status(400).json({ error: "Please enter correct Credentials!" });
+    }
+
+    // If everything is correct, create JWT token
+    const data = {
+      user: {
+        id: user.id
+      }
+    };
+    const authToken = jwt.sign(data, JWT_SECRET);
+
+    // Send token as response
+    res.json({ authToken });
+  } catch (error) {
+    // If any internal error occurs, log it and return 500 status
+    console.log(error);
+    res.status(500).send("Internal Server Error!");
+  }
+});
 
 module.exports = router

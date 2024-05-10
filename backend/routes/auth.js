@@ -4,10 +4,11 @@ const User = require('../models/User') //to use this model and enter the data ac
 const { body, validationResult } = require('express-validator'); // for validation of data
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+var fetchUser=require('../middleware/fetchUser')
 
 const JWT_SECRET="JaiShreeRam"
 
-// Create a usser using POST '/api/auth/createUser' Doessnt require the auth, Login not required
+//ROUTE 1: Create a usser using POST '/api/auth/createUser' Doessnt require the auth, Login not required
 router.post('/createUser', [
   body('name', 'Enter a valid Name!').isLength({ min: 3 }), // validation
   body('password', 'Password must be atleast 5 characters!').isLength({ min: 5 }), // validation
@@ -59,7 +60,7 @@ router.post('/createUser', [
   }
 })
 
-// Authenticate the user  using POST '/api/auth/login' Doessnt require the auth, Login not required
+//ROUTE 2: Authenticate the user  using POST '/api/auth/login' Doessnt require the auth, Login not required
 router.post('/login', [
   
   body('email', 'Enter a valid Email!').isEmail(), // validation
@@ -108,5 +109,18 @@ router.post('/login', [
     res.status(500).send("Internal Server Error!");
   }
 });
+
+//ROUTE 3: Get the data of logged in user '/api/auth/getuser' Login required
+router.post('/getUser',fetchUser,async (req, res) => {
+  try {
+    userId=req.user.id;
+    const user= await User.findById(userId).select('-password') //When we get the user details we will fetch all the details except the password
+    res.send(user);
+  } catch (error) {
+    // If any internal error occurs, log it and return 500 status
+    console.log(error);
+    res.status(500).send("Internal Server Error!");
+  }
+})
 
 module.exports = router

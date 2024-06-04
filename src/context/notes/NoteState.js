@@ -1,6 +1,6 @@
 
 import NoteContext from "./noteContext";
-// import { useState } from "react";
+import { useState } from "react";
 const NoteState=(props)=>{
     // const s1={
     //     "name":"Bhakti",
@@ -15,8 +15,68 @@ const NoteState=(props)=>{
     //         })
     //     }, 1000);
     // }
+
+   
+       const notesInitial= [
+        {
+          "_id": "6649dd33463a08a713689ccd",
+          "user": "663c6e01a6129eb6b8d662b2",
+          "title": "My First Note update",
+          "description": "Have faith in God's Work update",
+          "tags": "Personal",
+          "Date": "2024-05-19T11:06:27.103Z",
+          "__v": 0
+        },
+        {
+          "_id": "665d9137c96daab596a5289d",
+          "user": "663c6e01a6129eb6b8d662b2",
+          "title": "My Second Note",
+          "description": "Positive Attitude",
+          "tags": "General",
+          "Date": "2024-06-03T09:47:35.935Z",
+          "__v": 0
+        },
+        {
+          "_id": "6649dd33463a08a713689ccd",
+          "user": "663c6e01a6129eb6b8d662b2",
+          "title": "My First Note update",
+          "description": "Have faith in God's Work update",
+          "tags": "Personal",
+          "Date": "2024-05-19T11:06:27.103Z",
+          "__v": 0
+        },
+        {
+          "_id": "665d9137c96daab596a5289d",
+          "user": "663c6e01a6129eb6b8d662b2",
+          "title": "My Second Note",
+          "description": "Positive Attitude",
+          "tags": "General",
+          "Date": "2024-06-03T09:47:35.935Z",
+          "__v": 0
+        },
+        {
+          "_id": "6649dd33463a08a713689ccd",
+          "user": "663c6e01a6129eb6b8d662b2",
+          "title": "My First Note update",
+          "description": "Have faith in God's Work update",
+          "tags": "Personal",
+          "Date": "2024-05-19T11:06:27.103Z",
+          "__v": 0
+        },
+        {
+          "_id": "665d9137c96daab596a5289d",
+          "user": "663c6e01a6129eb6b8d662b2",
+          "title": "My Second Note",
+          "description": "Positive Attitude",
+          "tags": "General",
+          "Date": "2024-06-03T09:47:35.935Z",
+          "__v": 0
+        }
+      ]
+     
+    const [notes, setNotes]= useState(notesInitial)
 return(
-    <NoteContext.Provider value={{}}>
+    <NoteContext.Provider value={{notes,setNotes}}>
         {props.children}
     </NoteContext.Provider>
 )

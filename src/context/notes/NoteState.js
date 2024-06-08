@@ -92,16 +92,19 @@ const NoteState=(props)=>{
     }
 
     // Delete a Note
-    const deleteNote=()=>{
-      
+    const deleteNote=(id)=>{
+      // TODO: API call
+      // console.log("deleting the note with an id"+id);
+      const newNotes=notes.filter((note)=>{return note._id!==id}) // only ruturn that notes whose id is not equal to the notes id matlab jo id parameters mai hai.. wo id wala note chod ke sab id dikhao  
+      setNotes(newNotes);
     }
     // Edit a Note
-    const editNote=()=>{
+    const editNote=(id, title, description, tag)=>{
       
     }
 
 return(
-    <NoteContext.Provider value={{notes,addNote}}>
+    <NoteContext.Provider value={{notes,addNote, deleteNote}}>
         {props.children}
     </NoteContext.Provider>
 )

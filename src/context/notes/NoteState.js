@@ -16,69 +16,47 @@ const NoteState=(props)=>{
     //     }, 1000);
     // }
 
-   
-       const notesInitial= [
-        {
-          "_id": "6649dd33463a08a713689ccd",
-          "user": "663c6e01a6129eb6b8d662b2",
-          "title": "My First Note update",
-          "description": "Have faith in God's Work update",
-          "tags": "Personal",
-          "Date": "2024-05-19T11:06:27.103Z",
-          "__v": 0
-        },
-        {
-          "_id": "665d9137c96daab596a5289d",
-          "user": "663c6e01a6129eb6b8d662b2",
-          "title": "My Second Note",
-          "description": "Positive Attitude",
-          "tags": "General",
-          "Date": "2024-06-03T09:47:35.935Z",
-          "__v": 0
-        },
-        {
-          "_id": "6649dd33463a08a713689ccd1",
-          "user": "663c6e01a6129eb6b8d662b2",
-          "title": "My First Note update",
-          "description": "Have faith in God's Work update",
-          "tags": "Personal",
-          "Date": "2024-05-19T11:06:27.103Z",
-          "__v": 0
-        },
-        {
-          "_id": "665d9137c96daab596a5289d2",
-          "user": "663c6e01a6129eb6b8d662b2",
-          "title": "My Second Note",
-          "description": "Positive Attitude",
-          "tags": "General",
-          "Date": "2024-06-03T09:47:35.935Z",
-          "__v": 0
-        },
-        {
-          "_id": "6649dd33463a08a713689ccd3",
-          "user": "663c6e01a6129eb6b8d662b2",
-          "title": "My First Note update",
-          "description": "Have faith in God's Work update",
-          "tags": "Personal",
-          "Date": "2024-05-19T11:06:27.103Z",
-          "__v": 0
-        },
-        {
-          "_id": "665d9137c96daab596a5289d4",
-          "user": "663c6e01a6129eb6b8d662b2",
-          "title": "My Second Note",
-          "description": "Positive Attitude",
-          "tags": "General",
-          "Date": "2024-06-03T09:47:35.935Z",
-          "__v": 0
-        }
-      ]
+    const host="http://localhost:5000";
+       const notesInitial= []
      
     const [notes, setNotes]= useState(notesInitial)
 
+    // Fetch all Note
+    const fetchNote=async ()=>{
+      // API call
+      const response = await fetch(`${host}/api/notes/fetchallNotes`, {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzYzZlMDFhNjEyOWViNmI4ZDY2MmIyIn0sImlhdCI6MTcxNTMyNTQ2NX0.u9Ms1RppRy_3RXOQj2ucKdY0ysU34Y8XQDoKRZoX-x8"
+        },
+      });
+      // const json= response.json(); // parses JSON response into native JavaScript objects
+      const json=await response.json();
+      console.log(json);
+      setNotes(json);
+    }
+
+
     // Add a Note
-    const addNote=(title,description,tag)=>{
+    const addNote=async (title,description,tag)=>{
       // TODO: API call
+      const response = await fetch(`${host}/api/notes/addNote`, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzYzZlMDFhNjEyOWViNmI4ZDY2MmIyIn0sImlhdCI6MTcxNTMyNTQ2NX0.u9Ms1RppRy_3RXOQj2ucKdY0ysU34Y8XQDoKRZoX-x8"
+        },
+        
+        body: JSON.stringify({title,description,tag}), // body data type must match "Content-Type" header
+      });
+      // const json= response.json(); // parses JSON response into native JavaScript objects
+
+      // Client side logic
         const note= {
           "_id": "665d9137c96daab596a5289d5",
           "user": "663c6e01a6129eb6b8d662b2",
@@ -92,19 +70,53 @@ const NoteState=(props)=>{
     }
 
     // Delete a Note
-    const deleteNote=(id)=>{
+    const deleteNote=async(id)=>{
       // TODO: API call
+      const response = await fetch(`${host}/api/notes/deleteNote/${id}`, {
+        method: "DELETE", // *GET, POST, PUT, DELETE, etc.
+        
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzYzZlMDFhNjEyOWViNmI4ZDY2MmIyIn0sImlhdCI6MTcxNTMyNTQ2NX0.u9Ms1RppRy_3RXOQj2ucKdY0ysU34Y8XQDoKRZoX-x8"
+        },
+      });
+      const json= response.json(); // parses JSON response into native JavaScript objects
+      console.log(json);
       // console.log("deleting the note with an id"+id);
       const newNotes=notes.filter((note)=>{return note._id!==id}) // only ruturn that notes whose id is not equal to the notes id matlab jo id parameters mai hai.. wo id wala note chod ke sab id dikhao  
       setNotes(newNotes);
     }
     // Edit a Note
-    const editNote=(id, title, description, tag)=>{
-      
+    const editNote=async (id, title, description, tag)=>{
+      // API Call
+      const response = await fetch(`${host}/api/notes/updateNote/${id}`, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzYzZlMDFhNjEyOWViNmI4ZDY2MmIyIn0sImlhdCI6MTcxNTMyNTQ2NX0.u9Ms1RppRy_3RXOQj2ucKdY0ysU34Y8XQDoKRZoX-x8"
+        },
+        
+        body: JSON.stringify({title,description,tag}), // body data type must match "Content-Type" header
+      });
+      const json= response.json(); // parses JSON response into native JavaScript objects
+
+      // Logic of client side edit
+      for (let i = 0; i < notes.length; i++) {
+        const element = notes[i];
+        if(element.id=== id){
+          element.title=title;
+          element.description=description;
+          element.tag=tag;
+        }
+        
+      }
     }
 
 return(
-    <NoteContext.Provider value={{notes,addNote, deleteNote}}>
+    <NoteContext.Provider value={{notes,addNote, deleteNote,editNote,fetchNote}}>
         {props.children}
     </NoteContext.Provider>
 )

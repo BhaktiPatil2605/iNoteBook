@@ -54,18 +54,8 @@ const NoteState=(props)=>{
         
         body: JSON.stringify({title,description,tag}), // body data type must match "Content-Type" header
       });
-      const json= await response.json(); // parses JSON response into native JavaScript objects
-      console.log(json);
-      // Client side logic
-        const note= {
-          "_id": "665d9137c96daab596a5289d5",
-          "user": "663c6e01a6129eb6b8d662b2",
-          "title": title,
-          "description": description,
-          "tags": tag,
-          "Date": "2024-06-03T09:47:35.935Z",
-          "__v": 0
-        };
+      const note= await response.json(); // parses JSON response into native JavaScript objects
+      
         setNotes(notes.concat(note)); //concat returns an array whereas push updates an array
     }
 

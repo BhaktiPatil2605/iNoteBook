@@ -67,7 +67,7 @@ router.post('/login', [
   body('password', 'Password cannot be Blank!').exists(), // validation
 
 ],async (req, res) => {
-
+  let success=false;
   try {
     // Validation errors handling
     const errors = validationResult(req);
@@ -90,7 +90,8 @@ router.post('/login', [
 
     // If password doesn't match, return error
     if (!isPasswordValid) {
-      return res.status(400).json({ error: "Please enter correct Credentials!" });
+      success=false
+      return res.status(400).json({success, error: "Please enter correct Credentials!" });
     }
 
     // If everything is correct, create JWT token
@@ -102,7 +103,8 @@ router.post('/login', [
     const authToken = jwt.sign(data, JWT_SECRET);
 
     // Send token as response
-    res.json({ authToken });
+    success=true
+    res.json({ success,authToken });
   } catch (error) {
     // If any internal error occurs, log it and return 500 status
     console.log(error);

@@ -54,8 +54,8 @@ const NoteState=(props)=>{
         
         body: JSON.stringify({title,description,tag}), // body data type must match "Content-Type" header
       });
-      // const json= response.json(); // parses JSON response into native JavaScript objects
-
+      const json= await response.json(); // parses JSON response into native JavaScript objects
+      console.log(json);
       // Client side logic
         const note= {
           "_id": "665d9137c96daab596a5289d5",
@@ -81,7 +81,7 @@ const NoteState=(props)=>{
           "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzYzZlMDFhNjEyOWViNmI4ZDY2MmIyIn0sImlhdCI6MTcxNTMyNTQ2NX0.u9Ms1RppRy_3RXOQj2ucKdY0ysU34Y8XQDoKRZoX-x8"
         },
       });
-      const json= response.json(); // parses JSON response into native JavaScript objects
+      const json= await response.json(); // parses JSON response into native JavaScript objects
       console.log(json);
       // console.log("deleting the note with an id"+id);
       const newNotes=notes.filter((note)=>{return note._id!==id}) // only ruturn that notes whose id is not equal to the notes id matlab jo id parameters mai hai.. wo id wala note chod ke sab id dikhao  
@@ -91,7 +91,7 @@ const NoteState=(props)=>{
     const editNote=async (id, title, description, tag)=>{
       // API Call
       const response = await fetch(`${host}/api/notes/updateNote/${id}`, {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        method: "PUT", // *GET, POST, PUT, DELETE, etc.
         
         headers: {
           "Content-Type": "application/json",
@@ -101,18 +101,22 @@ const NoteState=(props)=>{
         
         body: JSON.stringify({title,description,tag}), // body data type must match "Content-Type" header
       });
-      const json= response.json(); // parses JSON response into native JavaScript objects
+      const json= await response.json(); // parses JSON response into native JavaScript objects
+      console.log(json);
 
+      let newNotes=JSON.parse(JSON.stringify(notes));
       // Logic of client side edit
-      for (let i = 0; i < notes.length; i++) {
-        const element = notes[i];
-        if(element.id=== id){
-          element.title=title;
-          element.description=description;
-          element.tag=tag;
+      for (let i = 0; i < newNotes.length; i++) {
+        const element = newNotes[i];
+        if(element._id=== id){
+          newNotes[i].title=title;
+          newNotes[i].description=description;
+          newNotes[i].tag=tag;
+          break;
         }
         
       }
+      setNotes(newNotes);
     }
 
 return(

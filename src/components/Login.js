@@ -1,9 +1,9 @@
 import React , { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 const host="http://localhost:5000";
-const Login = () => {
+const Login = (props) => {
     const [credentials, setcredentials] = useState({email:"",password:""});
-    let navigate=useNavigate();
+    let navigate=useNavigate(); //use navigate is to redirect the page on click of button
     const handlesubmit=async (e)=>{
         e.preventDefault() //not to reload the page automatic
         const response = await fetch(`${host}/api/auth/login`, {
@@ -20,8 +20,11 @@ const Login = () => {
             // save the auth token and redirect
             localStorage.setItem('token',json.authtoken);
             navigate("/");
+            props.showAlert("Logged In Succesfully", "success");
+
           }else{
-            alert("Invalid Creds");
+            props.showAlert("Invalid Credentials", "danger");
+
           }
     }
     const onchange = (e) => {

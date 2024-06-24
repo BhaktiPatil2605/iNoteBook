@@ -19,6 +19,7 @@ router.post('/createUser', [
   //    const user=User(req.body);
   //    user.save();
   // res.send(req.body);
+  let success=false;
 
   // If there are error return bad request and errors
   const errors = validationResult(req);
@@ -28,9 +29,9 @@ router.post('/createUser', [
 
   try {
     // check whether user with this email exists
-    let user = await User.findOne({ email: req.body.email });
+    let user = await User.findOne({success, email: req.body.email });
     if (user) {
-      res.status(400).json({ error: "The user with this email already exists" });
+      res.status(400).json({success, error: "The user with this email already exists" });
     }
     // create a user
     const salt= await bcrypt.genSalt(10);
@@ -52,7 +53,8 @@ router.post('/createUser', [
     const authToken=jwt.sign(data,JWT_SECRET);
     // console.log(jwtData);
     // res.json(user)
-    res.json({authToken});
+    success=true;
+    res.json({success,authToken});
 
   } catch (error) {
     console.error(error.message);

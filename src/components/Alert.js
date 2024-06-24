@@ -17,3 +17,5 @@ export default function Alert(props) {
         
     )
 }
+
+// Component use to show the alerts

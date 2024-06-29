@@ -30,7 +30,7 @@ const NoteState=(props)=>{
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzYzZlMDFhNjEyOWViNmI4ZDY2MmIyIn0sImlhdCI6MTcxNTMyNTQ2NX0.u9Ms1RppRy_3RXOQj2ucKdY0ysU34Y8XQDoKRZoX-x8"
+          "auth-token":localStorage.getItem('token'),
         },
       });
       // const json= response.json(); // parses JSON response into native JavaScript objects
@@ -49,7 +49,7 @@ const NoteState=(props)=>{
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzYzZlMDFhNjEyOWViNmI4ZDY2MmIyIn0sImlhdCI6MTcxNTMyNTQ2NX0.u9Ms1RppRy_3RXOQj2ucKdY0ysU34Y8XQDoKRZoX-x8"
+          "auth-token":localStorage.getItem('token'),
         },
         
         body: JSON.stringify({title,description,tag}), // body data type must match "Content-Type" header
@@ -68,7 +68,7 @@ const NoteState=(props)=>{
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzYzZlMDFhNjEyOWViNmI4ZDY2MmIyIn0sImlhdCI6MTcxNTMyNTQ2NX0.u9Ms1RppRy_3RXOQj2ucKdY0ysU34Y8XQDoKRZoX-x8"
+          "auth-token":localStorage.getItem('token')
         },
       });
       const json= await response.json(); // parses JSON response into native JavaScript objects
@@ -86,7 +86,7 @@ const NoteState=(props)=>{
         headers: {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjYzYzZlMDFhNjEyOWViNmI4ZDY2MmIyIn0sImlhdCI6MTcxNTMyNTQ2NX0.u9Ms1RppRy_3RXOQj2ucKdY0ysU34Y8XQDoKRZoX-x8"
+          "auth-token":localStorage.getItem('token')
         },
         
         body: JSON.stringify({title,description,tag}), // body data type must match "Content-Type" header
